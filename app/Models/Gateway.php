@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gateway extends Model
 {
-    protected $fillable = [
-        'name',
-        'is_active',
-        'priority',
-    ];
+    protected $fillable = ["name", "is_active", "priority"];
 
-    public functions transactions()
+    public function transaction()
     {
         return $this->hasMany(Transaction::class);
     }
+
+    protected $casts = [
+        "is_active" => "boolean",
+    ];
 }

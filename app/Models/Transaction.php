@@ -11,6 +11,7 @@ class Transaction extends Model
         "gateway_id",
         "external_id",
         "status",
+        "amount",
         "card_last_numbers",
     ];
 
