@@ -1,8 +1,50 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\GatewayController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Rotas públicas
+Route::post("/login", [AuthController::class, "login"]);
+Route::post("/purchase", [PurchaseController::class, "store"]);
+
+// Rotas privadas
+Route::middleware("auth:sanctum")->group(function () {
+    Route::post("/logout", [AuthController::class, "logout"]);
+
+    // Transações
+    Route::get("/transactions", [TransactionController::class, "index"]);
+    Route::get("/transactions/{transaction}", [
+        TransactionController::class,
+        "show",
+    ]);
+    Route::post("/transactions/{transaction}/refund", [
+        TransactionController::class,
+        "refund",
+    ]);
+
+    // Clientes
+    Route::get("/clients", [ClientController::class, "index"]);
+    Route::get("/clients/{client}", [ClientController::class, "show"]);
+
+    // Gateways
+    Route::patch("/gateways/{gateway}/toggle", [
+        GatewayController::class,
+        "toggle",
+    ]);
+    Route::patch("/gateways/{gateway}/priority", [
+        GatewayController::class,
+        "updatePriority",
+    ]);
+
+    // Produtos
+    Route::apiResource("/products", ProductController::class);
+
+    // Usuários
+    Route::apiResource("/users", UserController::class);
+});
