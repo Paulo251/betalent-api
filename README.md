@@ -1,4 +1,4 @@
-# BeTalent Payment API
+# BeTalent Payment API (Nível 1)
 
 API RESTful para gerenciamento de pagamentos multi-gateway, desenvolvida em Laravel 12 com suporte a múltiplos gateways de pagamento e fallback automático.
 
